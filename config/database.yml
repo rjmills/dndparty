@@ -41,7 +41,7 @@ development:
 test:
   adapter: postgresql
   encoding: unicode
-  database: dnd_party_test
+  database: dndparty_test
   pool: 5
   username: dndparty
   password: uu0KsNCIhu89
