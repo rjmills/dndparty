@@ -1,27 +1,61 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>DnD Party</title>
+    <title>DnDParty</title>
       <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
       <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
       <%= csrf_meta_tags %>
   </head>
   <body>
 
-  <div id="nav">
-    <% if current_user %>
-      <%= link_to "Edit Profile", edit_user_path(current_user.id) %>
-      <%= link_to "Logout", :logout, method: :post %>
-    <% else %>
-      <%= link_to "Register", new_user_path %> |
-      <%= link_to "Login", :login %>
-    <% end %>
-  </div>
-  <div>
-    <p id="notice"><%= flash[:notice] %></p>
-    <p id="alert"><%= flash[:alert] %></p>
-  </div>
-  <%= yield %>
+    <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light">
+      <div class="container">
+        <a class="navbar-brand" href="#">DnDParty</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+          <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+            <li class="nav-item">
+              <a class="nav-link" href="#">Home</a>
+            </li>
+          </ul>
+          <% unless current_user %>
+            <ul class="navbar-nav my-2 my-lg-0">
+              <li class="nav-item">
+                <%= link_to "Register", new_user_path, class: "nav-link" %>
+              </li>
+              <li class="nav-item">
+                <%= link_to "Login", :login, class: "nav-link" %>
+              </li>
+            </ul>
+          <% else %>
+            <ul class="navbar-nav my-2 my-lg-0">
+              <li class="nav-item dropdown my-2 my-lg-0">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <%= current_user.username %>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                  <%= link_to "Edit Profile", edit_user_path(current_user.id), class: "dropdown-item" %>
+                  <%= link_to "Logout", :logout, method: :post, class: "dropdown-item alert" %>
+                </div>
+              </li>
+            </ul>
+          <% end %>
+        </div>
+      </div>
+    </nav>
+    <div class="container">
+      <div>
+        <% if flash[:notice] %>
+          <p id="notice" class="alert alert-success"><%= flash[:notice] %></p>
+        <% end %>
+        <% if flash[:alert] %>
+          <p id="alert" class="alert alert-danger"><%= flash[:alert] %></p>
+        <% end %>        
+      </div>
+      <%= yield %>
+    </div>
 
   </body>
 </html>
